@@ -18,7 +18,7 @@ function buildApiUrlWithParams(args) {
     const params = ['from', 'to']
         .filter(x => Boolean(args[x]))
         .reduce((acc, key) => {
-            acc[key] = args[key];
+            acc[key] = encodeURIComponent(args[key]);
 
             return acc;
         }, {});
