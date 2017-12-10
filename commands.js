@@ -14,9 +14,24 @@ function buildCommand(commandName, handler) {
     };
 }
 
+function buildApiUrlWithParams(args) {
+    const params = ['from', 'to']
+        .filter(x => Boolean(args[x]))
+        .reduce((acc, key) => {
+            acc[key] = args[key];
+
+            return acc;
+        }, {});
+
+
+    return Object.keys(params).length !== 0
+        ? buildUrl(apiUrl, { queryParams: params })
+        : apiUrl;
+}
+
 const commands = [
-    buildCommand('list', function () {
-        return fetchJson(apiUrl, { method: 'GET' })
+    buildCommand('list', function (args) {
+        return fetchJson(buildApiUrlWithParams(args), { method: 'GET' })
             .then(data => data
                 .map(formatMessage)
                 .join(os.EOL + os.EOL));
@@ -24,19 +39,9 @@ const commands = [
 
     buildCommand('send', function (args) {
         const options = { method: 'POST', body: { text: args.text } };
-        const params = ['from', 'to']
-            .filter(x => Boolean(args[x]))
-            .reduce((acc, key) => {
-                acc[key] = args[key];
 
-                return acc;
-            }, {});
 
-        const url = Object.keys(params).length !== 0
-            ? buildUrl(apiUrl, { queryParams: params })
-            : apiUrl;
-
-        return fetchJson(url, options)
+        return fetchJson(buildApiUrlWithParams(args), options)
             .then(formatMessage);
     }),
     buildCommand('delete', function (args) {
