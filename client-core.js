@@ -41,5 +41,5 @@ function execute() {
     // const args = process.argv;
     const args = parseArgs();
 
-    return commands.filter(x => x.canHandle(args))[0].handleAsync(args);
+    return commands.find(x => x.canHandle(args)).handleAsync(args);
 }

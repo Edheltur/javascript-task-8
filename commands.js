@@ -32,8 +32,9 @@ const commands = [
                 return acc;
             }, {});
 
-
-        const url = buildUrl(apiUrl, { queryParams: params });
+        const url = Object.keys(params).length !== 0
+            ? buildUrl(apiUrl, { queryParams: params })
+            : apiUrl;
 
         return fetchJson(url, options)
             .then(formatMessage);
