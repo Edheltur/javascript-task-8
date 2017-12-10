@@ -1,12 +1,12 @@
 'use strict';
 
-const http = require('http');
+const express = require('express');
+const messages = require('./routes/messages');
 
-const server = http.createServer();
+const app = express();
 
-server.on('request', (req, res) => {
-    // Тут нужно обработать запрос
-    res.end();
-});
+app.use(express.json());
+app.use('/messages', messages);
 
-module.exports = server;
+
+module.exports = app;
