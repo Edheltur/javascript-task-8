@@ -24,8 +24,8 @@ function removeUndefinedProps(obj) {
     return removeProps(obj, (key, value) => value === undefined);
 }
 
-function removeDbId(obj) {
-    return removeProps(obj, key => key === '_id');
+function projectObject(obj, projection) {
+    return removeProps(obj, key => projection[key] === 0);
 }
 
-module.exports = { responseAsJson, removeProps, removeDbId, removeUndefinedProps };
+module.exports = { responseAsJson, projectObject, removeUndefinedProps };

@@ -1,22 +1,27 @@
 'use strict';
 
-const Datastore = require('nedb');
 const uuid = require('uuid/v4');
+const Datastore = require('nedb');
 const express = require('express');
-const { responseAsJson, removeDbId, removeUndefinedProps } = require('../utils');
+const { responseAsJson, removeUndefinedProps, projectObject } = require('../utils');
 
+
+const outputFormat = { '_id': 0, 'createdAt': 0 };
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-const messages = new Datastore({ filename: 'db/messages,json', autoload: true });
+const messages = new Datastore({ autoload: true });
 
 router.get('/', (req, res) => {
     const from = req.query.from;
     const to = req.query.to;
     const query = removeUndefinedProps({ from, to });
-    messages.find(query, { '_id': 0 }, (err, docs) => {
-        responseAsJson(err, res, docs);
-    });
+    messages.find(query)
+        .projection(outputFormat)
+        .sort({ createdAt: 1 })
+        .exec((err, docs) => {
+            responseAsJson(err, res, docs);
+        });
 
 });
 
@@ -25,8 +30,9 @@ router.post('/', (req, res) => {
     const to = req.query.to;
     const text = req.body.text;
     const id = uuid();
-    messages.insert({ from, to, text, id }, (err, doc) => {
-        responseAsJson(err, res, removeDbId(doc));
+    const createdAt = new Date();
+    messages.insert({ from, to, text, id, createdAt }, (err, doc) => {
+        responseAsJson(err, res, projectObject(doc, outputFormat));
     });
 });
 
@@ -45,7 +51,7 @@ router.patch('/:id', (req, res) => {
     messages.update({ id },
         { $set: { text, edited } },
         { returnUpdatedDocs: true }, (err, amount, doc) => {
-            responseAsJson(err, res, removeDbId(doc));
+            responseAsJson(err, res, projectObject(doc, outputFormat));
         });
 });
 

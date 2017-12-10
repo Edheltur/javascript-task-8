@@ -6,7 +6,7 @@ const supertest = require('supertest');
 
 function prepareServer() {
     delete require.cache[require.resolve('./server-core')];
-
+    delete require.cache[require.resolve('./routes/messages')];
     const server = require('./server-core');
 
     return supertest(server);
