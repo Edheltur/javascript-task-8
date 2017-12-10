@@ -13,8 +13,7 @@ const router = express.Router();
 const messages = new Datastore({ autoload: true });
 
 router.get('/', (req, res) => {
-    const from = req.query.from;
-    const to = req.query.to;
+    const { from, to } = req.query;
     const query = removeUndefinedProps({ from, to });
     messages.find(query)
         .projection(outputFormat)
@@ -26,9 +25,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const from = req.query.from;
-    const to = req.query.to;
-    const text = req.body.text;
+    const { from, to } = req.query;
+    const { text } = req.body;
     const id = uuid();
     const createdAt = new Date();
     messages.insert({ from, to, text, id, createdAt }, (err, doc) => {
@@ -45,8 +43,8 @@ router.delete('/:id', (req, res) => {
 
 
 router.patch('/:id', (req, res) => {
-    const id = req.params.id;
-    const text = req.body.text;
+    const { id } = req.params;
+    const { text } = req.body;
     const edited = true;
     messages.update({ id },
         { $set: { text, edited } },

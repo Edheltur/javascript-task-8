@@ -64,7 +64,6 @@ const commands = [
         function (args) {
             const options = { method: 'POST', body: { text: args.text } };
 
-
             return fetchJson(buildApiUrlWithParams(args), options)
                 .then(msg => formatMessage(msg, args));
         }),
