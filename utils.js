@@ -12,6 +12,10 @@ function responseNotFoundAsJson(res) {
     res.status(404).send({ status: 'not found' });
 }
 
+function responseBadRequestAsJson(res) {
+    res.status(400).send({ status: 'bad request' });
+}
+
 function removeProps(obj, shouldDelete) {
     const propNames = Object.getOwnPropertyNames(obj);
     for (let i = 0; i < propNames.length; i++) {
@@ -32,4 +36,10 @@ function projectObject(obj, projection) {
     return removeProps(obj, key => projection[key] === 0);
 }
 
-module.exports = { responseAsJson, projectObject, removeUndefinedProps, responseNotFoundAsJson };
+module.exports = {
+    responseAsJson,
+    projectObject,
+    removeUndefinedProps,
+    responseNotFoundAsJson,
+    responseBadRequestAsJson
+};

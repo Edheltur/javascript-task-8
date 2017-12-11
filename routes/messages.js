@@ -7,7 +7,8 @@ const {
     responseAsJson,
     removeUndefinedProps,
     projectObject,
-    responseNotFoundAsJson
+    responseNotFoundAsJson,
+    responseBadRequestAsJson
 } = require('../utils');
 
 
@@ -54,6 +55,9 @@ router.delete('/:id', (req, res) => {
 router.patch('/:id', (req, res) => {
     const { id } = req.params;
     const { text } = req.body;
+    if (!text) {
+        return responseBadRequestAsJson(res);
+    }
     const edited = true;
     messages.update({ id },
         { $set: { text, edited } },
