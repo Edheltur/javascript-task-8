@@ -4,7 +4,7 @@ const ArgumentParser = require('argparse').ArgumentParser;
 const commands = require('./commands');
 
 module.exports.execute = execute;
-module.exports.isStar = true;
+module.exports.isStar = false;
 
 function execute() {
     // Внутри этой функции нужно получить и обработать аргументы командной строки
