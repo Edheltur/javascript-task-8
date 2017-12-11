@@ -8,10 +8,9 @@ const apiUrl = 'http://localhost:8080/messages';
 
 function buildCommand(commandName, argDefinitions, handleAsync) {
     return {
-        canHandle: ({ cmd }) => cmd.toLowerCase() === commandName,
+        canHandle: ({ cmd }) => cmd === commandName,
         configureArgParse: function (subparsers) {
-            const parserOptions = { aliases: [commandName.toUpperCase()], addHelp: true };
-            const parser = subparsers.addParser(commandName, parserOptions);
+            const parser = subparsers.addParser(commandName, { addHelp: true });
             Object.keys(argDefinitions).forEach(function (key) {
                 const isFlag = key.length === 1;
                 if (isFlag) {
