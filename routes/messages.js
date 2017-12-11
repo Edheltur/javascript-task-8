@@ -53,7 +53,11 @@ router.patch('/:id', (req, res) => {
     messages.update({ id },
         { $set: { text, edited } },
         { returnUpdatedDocs: true }, (err, amount, doc) => {
-            responseAsJson(err, res, projectObject(doc, outputFormat));
+            if (!err && amount === 0) {
+                res.status(404).json({ status: 'not found' });
+            } else {
+                responseAsJson(err, res, projectObject(doc, outputFormat));
+            }
         });
 });
 

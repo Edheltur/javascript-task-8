@@ -34,7 +34,6 @@ function buildApiUrlWithParams(args) {
             return acc;
         }, {});
 
-
     return Object.keys(params).length !== 0
         ? buildUrl(apiUrl, { queryParams: params })
         : apiUrl;
@@ -72,20 +71,23 @@ const commands = [
         {
             id: 'ID of deleting message',
             v: 'Verbose mode'
-        }, function (args) {
+        },
+        function (args) {
             return fetchJson(`${apiUrl}/${args.id}`, { method: 'DELETE' })
                 .then(data => {
                     return data.status === 'ok' ? 'DELETED' : 'ERROR';
                 });
         }),
 
-    buildCommand('edit', {
-        id: 'ID of deleting message',
-        text: 'New message text',
-        v: 'Verbose mode'
-    }, function (args) {
-        return fetchJson(`${apiUrl}/${args.id}`, { method: 'PATCH' })
-            .then(msg => formatMessage(msg, args));
-    })
+    buildCommand('edit',
+        {
+            id: 'ID of deleting message',
+            text: 'New message text',
+            v: 'Verbose mode'
+        },
+        function (args) {
+            return fetchJson(`${apiUrl}/${args.id}`, { method: 'PATCH' })
+                .then(msg => formatMessage(msg, args));
+        })
 ];
 module.exports = commands;
