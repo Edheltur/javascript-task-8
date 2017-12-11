@@ -3,7 +3,12 @@
 const uuid = require('uuid/v4');
 const Datastore = require('nedb');
 const express = require('express');
-const { responseAsJson, removeUndefinedProps, projectObject } = require('../utils');
+const {
+    responseAsJson,
+    removeUndefinedProps,
+    projectObject,
+    responseNotFoundAsJson
+} = require('../utils');
 
 
 const outputFormat = { '_id': 0, 'createdAt': 0 };
@@ -35,10 +40,10 @@ router.post('/', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
     messages.remove({ id }, (err, amount) => {
         if (!err && amount === 0) {
-            res.status(404).json({ status: 'not found' });
+            responseNotFoundAsJson(res);
         } else {
             responseAsJson(err, res, { status: 'ok' });
         }
@@ -54,7 +59,7 @@ router.patch('/:id', (req, res) => {
         { $set: { text, edited } },
         { returnUpdatedDocs: true }, (err, amount, doc) => {
             if (!err && amount === 0) {
-                res.status(404).json({ status: 'not found' });
+                responseNotFoundAsJson(res);
             } else {
                 responseAsJson(err, res, projectObject(doc, outputFormat));
             }
