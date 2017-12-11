@@ -79,13 +79,6 @@ const commands = [
                 });
         }),
 
-    buildCommand('delete', function (args) {
-        return fetchJson(`${apiUrl}/${args.id}`, { method: 'DELETE' })
-            .then(data => {
-                return data.status === 'ok' ? 'DELETED' : 'ERROR';
-            });
-    }),
-
     buildCommand('edit', {
         id: 'ID of deleting message',
         text: 'New message text',

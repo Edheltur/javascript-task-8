@@ -36,8 +36,12 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
-    messages.remove({ id }, (err) => {
-        responseAsJson(err, res, { 'status': 'ok' });
+    messages.remove({ id }, (err, amount) => {
+        if (!err && amount === 0) {
+            res.status(404).json({ status: 'not found' });
+        } else {
+            responseAsJson(err, res, { status: 'ok' });
+        }
     });
 });
 
