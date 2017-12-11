@@ -33,6 +33,9 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const { from, to } = req.query;
     const { text } = req.body;
+    if (!text) {
+        return responseBadRequestAsJson(res);
+    }
     const id = uuid();
     const createdAt = new Date();
     messages.insert({ from, to, text, id, createdAt }, (err, doc) => {

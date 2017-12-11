@@ -74,9 +74,7 @@ const commands = [
         },
         function (args) {
             return fetchJson(`${apiUrl}/${args.id}`, { method: 'DELETE' })
-                .then(data => {
-                    return data.status === 'ok' ? 'DELETED' : 'ERROR';
-                });
+                .then(data => data.status === 'ok' ? 'DELETED' : 'ERROR');
         }),
 
     buildCommand('edit',
