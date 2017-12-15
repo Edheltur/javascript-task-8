@@ -2,18 +2,18 @@
 
 function responseAsJson(err, res, result) {
     if (err) {
-        res.status(500).json(err);
+        res.status(500).send({ status: 'internal server error', code: 500, err });
     } else {
-        res.json(result);
+        res.send(result);
     }
 }
 
 function responseNotFoundAsJson(res) {
-    res.status(404).send({ status: 'not found' });
+    res.status(404).send({ status: 'not found', code: 404 });
 }
 
 function responseBadRequestAsJson(res) {
-    res.status(400).send({ status: 'bad request' });
+    res.status(400).send({ status: 'bad request', code: 400 });
 }
 
 function removeProps(obj, shouldDelete) {

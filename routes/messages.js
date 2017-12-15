@@ -73,4 +73,8 @@ router.patch('/:id', (req, res) => {
         });
 });
 
+router.use(function (req, res) {
+    responseNotFoundAsJson(res);
+});
+
 module.exports = router;
