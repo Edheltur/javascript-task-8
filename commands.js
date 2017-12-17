@@ -1,5 +1,4 @@
 'use strict';
-const os = require('os');
 const buildUrl = require('build-url');
 const fetchJson = require('node-fetch-json');
 const { formatMessage } = require('./message-format');
