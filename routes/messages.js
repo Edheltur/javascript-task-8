@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
     const query = removeUndefinedProps({ from, to });
     messages.find(query)
         .projection(outputFormat)
-        // .sort({ createdAt: 1 })
+        .sort({ createdAt: 1 })
         .exec((err, docs) => {
             responseAsJson(err, res, docs);
         });
