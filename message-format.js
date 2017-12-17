@@ -45,7 +45,7 @@ function formatMessage(message, args) {
     return messageFormatters
         .filter(x => x.canFormat(message, args))
         .map(x => x.format(message))
-        .join(os.EOL);
+        .join('\n');
 }
 
 module.exports = { formatMessage };

@@ -50,7 +50,7 @@ const commands = [
             return fetchJson(buildApiUrlWithParams(args), { method: 'GET' })
                 .then(data => data
                     .map(msg => formatMessage(msg, args))
-                    .join(os.EOL + os.EOL));
+                    .join('\n\n'));
         }),
 
     buildCommand('send',
