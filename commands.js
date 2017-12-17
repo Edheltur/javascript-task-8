@@ -1,4 +1,5 @@
 'use strict';
+const os = require('os');
 const buildUrl = require('build-url');
 const fetchJson = require('node-fetch-json');
 const { formatMessage } = require('./message-format');
@@ -49,7 +50,7 @@ const commands = [
             return fetchJson(buildApiUrlWithParams(args), { method: 'GET' })
                 .then(data => data
                     .map(msg => formatMessage(msg, args))
-                    .join('\n\n'));
+                    .join(os.EOL + os.EOL));
         }),
 
     buildCommand('send',

@@ -1,5 +1,6 @@
 'use strict';
 
+const os = require('os');
 const chalk = require('chalk');
 
 class DefaultFormatter {
@@ -44,7 +45,7 @@ function formatMessage(message, args) {
     return messageFormatters
         .filter(x => x.canFormat(message, args))
         .map(x => x.format(message))
-        .join('\n');
+        .join(os.EOL);
 }
 
 module.exports = { formatMessage };
